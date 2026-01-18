@@ -327,7 +327,36 @@ def handle_input(msg):
 
     bot.send_message(msg.chat.id, safe_msg, parse_mode="Markdown")
     user_state.pop(user_id, None)
+# --- Simple Admin Commands ---
+@bot.message_handler(commands=['stats'])
+def get_stats(msg):
+    if msg.from_user.id == OWNER_ID:
+        try:
+            count = mongo.users_collection.count_documents({})
+            bot.reply_to(msg, f"📊 Total Users in DB: {count}")
+        except Exception as e:
+            bot.reply_to(msg, f"❌ Mongo Error: {e}")
 
+@bot.message_handler(commands=['users'])
+def list_users(msg):
+    if msg.from_user.id == OWNER_ID:
+        try:
+            all_users = mongo.users_collection.find({})
+            user_list = "📝 User IDs:\n" + "\n".join([str(u['user_id']) for u in all_users])
+            bot.reply_to(msg, user_list)
+        except Exception as e:
+            bot.reply_to(msg, f"❌ Error: {e}")
+
+@bot.message_handler(commands=['ban'])
+def ban_user(msg):
+    if msg.from_user.id == OWNER_ID:
+        try:
+            uid = int(msg.text.split()[1])
+            mongo.users_collection.delete_one({"user_id": uid})
+            bot.reply_to(msg, f"✅ User {uid} banned and removed from DB.")
+        except:
+            bot.reply_to(msg, "Usage: /ban 1234567")
+# --- Admin Commands End ---
 
 if __name__ == "__main__":
     logging.info("Bot starting...")
