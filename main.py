@@ -202,6 +202,26 @@ def broadcast(msg):
 
 
 
+# --- Admin Commands ---
+@bot.message_handler(commands=['stats'])
+def get_stats(msg):
+    if msg.from_user.id == OWNER_ID:
+        try:
+            count = mongo.users_collection.count_documents({})
+            bot.reply_to(msg, f"📊 Total Users in DB: {count}")
+        except Exception as e:
+            bot.reply_to(msg, f"❌ Mongo Error: {e}")
+
+@bot.message_handler(commands=['users'])
+def list_users(msg):
+    if msg.from_user.id == OWNER_ID:
+        try:
+            all_users = mongo.users_collection.find({})
+            user_list = "📝 User IDs:\n" + "\n".join([str(u['user_id']) for u in all_users])
+            bot.reply_to(msg, user_list)
+        except Exception as e:
+            bot.reply_to(msg, f"❌ Error: {e}")
+
 # ----------------------- CALLBACK HANDLER -----------------------
 @bot.callback_query_handler(func=lambda c: True)
 def callback(call):
