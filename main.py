@@ -87,7 +87,7 @@ def pretty_format(data, indent=2):
 # ----------------------- START COMMAND -----------------------
 import mongo  # mongo.py jisme add_user & broadcast_message hai
 
-OWNER_ID = 8535060154  # <-- yaha apna Telegram ID daalo
+OWNER_ID = 6571524546 # <-- yaha apna Telegram ID daalo
 
 # ---------- /start & /help ---------- (tumhara original code exactly)
 @bot.message_handler(commands=['start', 'help'])
@@ -103,7 +103,7 @@ def start(msg):
         kb.add(
             telebot.types.InlineKeyboardButton(
                 "💥 Join Our Channel 💥",
-                url="https://t.me/+2q1EoC5BVyM2MjI1"
+                url="https://t.me/+fSyxnPUWrQwxMzNl"
             )
         )
 
