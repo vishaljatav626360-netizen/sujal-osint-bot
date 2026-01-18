@@ -202,7 +202,7 @@ def broadcast(msg):
 
 
 
-# --- Admin Commands ---
+# --- Admin Commands (Corrected Spacing) ---
 @bot.message_handler(commands=['stats'])
 def get_stats(msg):
     if msg.from_user.id == OWNER_ID:
